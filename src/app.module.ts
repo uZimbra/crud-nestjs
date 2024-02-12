@@ -1,10 +1,19 @@
 import { Module } from '@nestjs/common';
-import { CoursesService } from './services/courses/courses.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { CoursesController } from './controllers/courses/courses.controller';
+import { CourseEntity } from './entities/course.entity';
+import { ServicesModule } from './services/services.module';
 
 @Module({
-  imports: [],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'sqlite',
+      database: 'database.sqlite3',
+      entities: [CourseEntity],
+      synchronize: true,
+    }),
+    ServicesModule,
+  ],
   controllers: [CoursesController],
-  providers: [CoursesService, CoursesService],
 })
 export class AppModule {}
